@@ -1,7 +1,8 @@
-/* eslint-disable */ 
+/* eslint-disable */
 <template>
   <div>
-    <el-input v-model="searchQuery" placeholder="搜索用户名" @input="fetchUsers" style="width: 300px; margin-bottom: 20px;" />
+    <el-input v-model="searchQuery" placeholder="搜索用户名" style="width: 300px; margin-bottom: 20px;" />
+    <el-button @click="fetchUsers" type="primary" icon="el-icon-search" size="mini"></el-button>
     <el-table :data="users" border style="width: 100%">
       <el-table-column prop="userName" label="用户名" width="180" />
       <el-table-column prop="email" label="邮箱" width="180" />
@@ -29,7 +30,7 @@
 import { getUsers, deleteUser } from '@/services/userService'
 
 export default {
-  data() {
+  data () {
     return {
       users: [],
       searchQuery: '',
@@ -41,7 +42,7 @@ export default {
     }
   },
   methods: {
-    fetchUsers() {
+    fetchUsers () {
       const params = {
         page: this.pagination.page,
         pageSize: this.pagination.pageSize,
@@ -52,24 +53,24 @@ export default {
         this.pagination.total = response.data.total
       })
     },
-    handleCurrentChange(page) {
+    handleCurrentChange (page) {
       this.pagination.page = page
       this.fetchUsers()
     },
-    deleteUser(id) {
+    deleteUser (id) {
       deleteUser(id).then(() => {
         this.$message.success('用户删除成功')
         this.fetchUsers()
       })
     },
-    editUser(user) {
+    editUser (user) {
       this.$emit('edit-user', user)
     },
-    formatGender(row) {
+    formatGender (row) {
       return row.gender === '0' ? '男' : '女'
     }
   },
-  mounted() {
+  mounted () {
     this.fetchUsers()
   }
 }

@@ -1,6 +1,6 @@
-/* eslint-disable */ 
+/* eslint-disable */
 <template>
-  <el-dialog :title="isEdit ? '编辑用户' : '新增用户'" :visible.sync="visible" width="50%">
+  <el-dialog :title="isEdit ? '编辑用户' : '新增用户'" :visible.sync="localVisible" width="50%">
     <el-form :model="userForm" ref="userForm" label-width="100px">
       <el-form-item label="用户名" prop="userName">
         <el-input v-model="userForm.userName" />
@@ -27,7 +27,7 @@
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">取消</el-button>
+      <el-button @click="closeDialog">取消</el-button>
       <el-button type="primary" @click="saveUser">确定</el-button>
     </div>
   </el-dialog>
@@ -42,7 +42,7 @@ export default {
     user: Object,
     roles: Array
   },
-  data() {
+  data () {
     return {
       userForm: {
         id: '',
@@ -52,29 +52,37 @@ export default {
         email: '',
         gender: '',
         roleIds: []
-      }
+      },
+      localVisible: false
     }
   },
   computed: {
-    isEdit() {
+    isEdit () {
       return !!this.userForm.id
     }
   },
   watch: {
-    user(newVal) {
+    visible (newVal) {
+      this.localVisible = newVal
+    },
+    user (newVal) {
       if (newVal) {
         this.userForm = { ...newVal }
       }
     }
   },
   methods: {
-    saveUser() {
+    saveUser () {
       const saveAction = this.isEdit ? updateUser(this.userForm.id, this.userForm) : createUser(this.userForm)
       saveAction.then(() => {
         this.$message.success(`用户${this.isEdit ? '更新' : '创建'}成功`)
         this.$emit('refresh-list')
-        this.visible = false
+        this.closeDialog()
       })
+    },
+    closeDialog () {
+      this.localVisible = false
+      this.$emit('update:visible', false) // 通知父组件更新visible
     }
   }
 }
