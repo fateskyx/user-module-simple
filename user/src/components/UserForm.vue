@@ -21,8 +21,8 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item label="角色">
-        <el-select v-model="userForm.roleIds" multiple placeholder="请选择角色">
-          <el-option v-for="role in roles" :key="role.id" :label="role.name" :value="role.id" />
+        <el-select v-model="userForm.roleIds" placeholder="请选择角色">
+          <!-- <el-option v-for="role in roles" :key="role.id" :label="role.name" :value="role.id" /> -->
         </el-select>
       </el-form-item>
     </el-form>
@@ -40,7 +40,7 @@ export default {
   props: {
     visible: Boolean,
     user: Object,
-    roles: Array
+    roles: String
   },
   data () {
     return {
@@ -51,7 +51,7 @@ export default {
         password: '',
         email: '',
         gender: '',
-        roleIds: []
+        roleIds: ''
       },
       localVisible: false
     }

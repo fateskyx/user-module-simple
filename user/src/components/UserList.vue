@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { getUsers, deleteUser } from '@/services/userService'
+import { queryUsers, deleteUser } from '@/services/userService'
 
 export default {
   data () {
@@ -48,8 +48,8 @@ export default {
         pageSize: this.pagination.pageSize,
         search: this.searchQuery
       }
-      getUsers(params).then(response => {
-        this.users = response.data.users
+      queryUsers(params).then(response => {
+        this.users = response.data
         this.pagination.total = response.data.total
       })
     },

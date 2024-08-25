@@ -17,7 +17,7 @@ export default {
     return {
       formVisible: false,
       selectedUser: null,
-      roles: []
+      roles: ''
     }
   },
   methods: {
@@ -30,7 +30,7 @@ export default {
       this.formVisible = true
     },
     refreshList () {
-      this.$refs.userList.fetchUsers()
+      this.$refs.UserList.fetchUsers()
     }
   }
   // mounted () {

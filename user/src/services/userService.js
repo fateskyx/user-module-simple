@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-const API_URL = 'https://your-api-url.com/users'
+const API_URL = 'http://localhost:8081/api/users'
 
-export const getUsers = (params) => {
+export const queryUsers = (params) => {
   return axios.get(API_URL, { params })
 }
 
