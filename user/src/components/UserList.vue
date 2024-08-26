@@ -49,8 +49,10 @@ export default {
         search: this.searchQuery
       }
       queryUsers(params).then(response => {
-        this.users = response.data
+        this.users = response.data.items
         this.pagination.total = response.data.total
+      }).catch(error => {
+        console.error('Failed to fetch users', error)
       })
     },
     handleCurrentChange (page) {

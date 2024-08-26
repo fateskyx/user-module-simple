@@ -1,8 +1,11 @@
 package org.example.user_module.service;
 
 import org.example.user_module.entity.User;
+import org.example.user_module.entity.UserQueryParams;
 import org.example.user_module.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,9 +21,19 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public List<User> getUsersByName(String names) {
-        return userRepository.findAllByPropertyName(names);
-           }
+    public Page<User> getUsers(String search, Pageable pageable) {
+        if (search != null && !search.isEmpty()) {
+            // 按用户名模糊搜索
+            return userRepository.findByUserNameContainingIgnoreCase(search, pageable);
+        } else {
+            // 返回所有用户，分页
+            return userRepository.findAll(pageable);
+        }
+    }
+
+//    public List<User> getUsersByName(UserQueryParams params) {
+//        return userRepository.findAllByPropertyName(params.getSearch());
+//           }
 
     public Optional<User> getUserById(Long id) {
         return userRepository.findById(id);
@@ -45,4 +58,6 @@ public class UserService {
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
+
+
 }
